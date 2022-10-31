@@ -1,8 +1,9 @@
 {
     // 어디에 타입스크립트 파일이 위치하는지 알려줘야한다. -> include에 자바스크립트로 컴파일하고 싶은 디렉토리들을 넣어준다.
     "include": [
-        "src"
-, "src/.myPackage.d.ts"    ],
+        "src",
+        "src/.myPackage.d.ts"
+    ],
     "compilerOptions": {
         // 컴파일된 자바스크립트 파일이 생성될 디렉토리
         "outDir": "build",
@@ -12,12 +13,17 @@
 
         // 합쳐진 라이브러리의 '정의 파일'(declaration files)을 특정해주는 역할을 한다.
         // 정의 파일이 목표로 하는 런타임 환경을 알려준다.(컴파일된 자바스크립트 코드가 어디에서 동작할지 알려주는 것)
-        "lib": ["ES6", "DOM"],
+        "lib": ["ES6"],
         // DOM을 세팅해두면 타입스크립트는 document를 고려할 수 있게된다.(브라우저의 API와 타입들을 알고 있게 된다.)
 
         "strict": true,
 
-        "allowJs": true,
+        "esModuleInterop": true,
+
+        // 브라우저 앱을 만든다면 umd 선택
+        "module": "CommonJs"
+
+        // "allowJs": true,
     }
 }
 
