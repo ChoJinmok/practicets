@@ -30,7 +30,12 @@
 
 // import * as crypto from 'crypto';
 // -> 이런식으로 고치지 않고 tsconfig에 esModuleInterop 추가해도 된다.
-// import crypto from 'cypto'; -> 정적 타입 파일을 일일이 만드는 것은 많이 비효율적
+// import crypto from 'crypto'; -> 정적 타입 파일을 일일이 만드는 것은 많이 비효율적
+// 타입스크립트로 작성되지 않은 패키지를 import 할 때 타입 정의를 일일이 다 적지 않을 수 있는 방법
+// DefinitelyTyped 사용! => npm에 존재하는 거의 모든 패키지들에 대해서 타입을 정의해줬다.
+// npm i -D @type/~~~ 로 타입 설치 가능하다
+// crypto는 node에 있으므로 npm i -D @type/node 실행
+import crypto from 'crypto';
 
 interface BlockShape {
   hash: string;
@@ -64,5 +69,7 @@ class Block implements BlockShape {
     { prevHash, height, data }: CalculateHashPrams,
   ) {
     const toHash = `${prevHash}${height}${data}`;
+
+    return crypto.createHash('sha256').update(toHash).digest('hex');
   }
 }
