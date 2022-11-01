@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 // myPackage에서 정의 파일을 찾을 수 없다고 에러가 발생(node_modules에 설치했다고 가정)
 // import { init, exit } from 'myPackage';
 
@@ -73,3 +75,41 @@ class Block implements BlockShape {
     return crypto.createHash('sha256').update(toHash).digest('hex');
   }
 }
+
+class Blockchain {
+  private blocks: Block[];
+
+  constructor() {
+    this.blocks = [];
+  }
+
+  private getPrevHash() {
+    if (this.blocks.length === 0) return '';
+
+    return this.blocks[this.blocks.length - 1].hash;
+  }
+
+  public addBlock(data: string) {
+    const newBlock = new Block(this.getPrevHash(), this.blocks.length + 1, data);
+
+    this.blocks.push(newBlock);
+  }
+
+  public getBlocks() {
+    // private blocks를 그냥 return 해주기 때문에 보안적으로 문제가 있다.
+    // return this.blocks;
+    return [...this.blocks];
+  }
+}
+
+const blockchain = new Blockchain();
+
+blockchain.addBlock('First one');
+blockchain.addBlock('Second one');
+blockchain.addBlock('Third one');
+
+// private blocks를 그냥 return 해주기 때문에 보안적으로 문제가 있다.
+blockchain.getBlocks().push(new Block('xxxxx', 1111, 'HACKEDDDD'));
+
+const { log } = console;
+log(blockchain.getBlocks());
